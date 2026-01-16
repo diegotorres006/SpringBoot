@@ -3,12 +3,11 @@ package ec.edu.ups.icc.fundamentos01.products.controllers;
 import ec.edu.ups.icc.fundamentos01.products.dtos.*;
 import ec.edu.ups.icc.fundamentos01.products.services.ProductService;
 import jakarta.validation.Valid;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/products")
+@RequestMapping("/api/products") // IMPORTANTE: Mantenemos el /api
 public class ProductController {
 
     private final ProductService productService;
@@ -47,6 +46,21 @@ public class ProductController {
         return productService.delete(id);
     }
 
+    // --- NUEVOS ENDPOINTS PARA EL SCRIPT ---
+    
+    // Obtener productos por Usuario
+    @GetMapping("/user/{id}")
+    public Object getByUserId(@PathVariable int id) {
+        return productService.findAllByUserId(id);
+    }
+
+    // Obtener productos por Categoría
+    @GetMapping("/category/{id}")
+    public Object getByCategoryId(@PathVariable int id) {
+        return productService.findAllByCategoryId(id);
+    }
+    
+    // Endpoint auxiliar
     @PostMapping("/validate-name")
     public ResponseEntity validateName(@RequestBody ValidateProductNameDto dto) {
         return ResponseEntity.ok(null);
